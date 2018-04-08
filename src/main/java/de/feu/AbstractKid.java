@@ -1,13 +1,22 @@
 package de.feu;
 
-// TODO: Auto-generated Javadoc
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * The Class AbstractKid.
  */
 public abstract class AbstractKid implements FizzBuzzPlayer {
 
+	/** The players. */
+	private final List<FizzBuzzPlayer> players = new LinkedList<>();
+
+	private FizzBuzzPlayer predecessor;
+
 	/** The name. */
 	private final String name;
+
+	private int count = 1;
 
 	/**
 	 * Instantiates a new abstract kid.
@@ -22,7 +31,7 @@ public abstract class AbstractKid implements FizzBuzzPlayer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see de.feu.FizzBuzzPlayer#getName()
 	 */
 	@Override
@@ -30,9 +39,50 @@ public abstract class AbstractKid implements FizzBuzzPlayer {
 		return name;
 	}
 
+	@Override
+	public void setPredecessor(FizzBuzzPlayer predecessor) {
+		this.predecessor = predecessor;
+	}
+
+	@Override
+	public boolean update(FizzBuzzPlayer handler) {
+		if (count == 500) {
+			System.out.println("Danke, Schluss!");
+			System.exit(0);
+		}
+		if (predecessor.equals(handler)) {
+			sayWord(count);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public void updateCount() {
+		count++;
+	}
+
+	@Override
+	public void attach(FizzBuzzPlayer kid) {
+		players.add(kid);
+	}
+
+	@Override
+	public void notifyObservers(String word) {
+		players.forEach(p -> {
+			p.updateCount();
+		});
+		for (final FizzBuzzPlayer fizzBuzzPlayer : players) {
+			if (fizzBuzzPlayer.update(this)) {
+				break;
+			}
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -45,7 +95,7 @@ public abstract class AbstractKid implements FizzBuzzPlayer {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override

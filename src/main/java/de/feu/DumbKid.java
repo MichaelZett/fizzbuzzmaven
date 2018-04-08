@@ -18,7 +18,7 @@ public class DumbKid extends AbstractKid {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see de.feu.FizzBuzzPlayer#determineWord(int)
 	 */
 	@Override

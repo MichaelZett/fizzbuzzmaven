@@ -1,10 +1,9 @@
 package de.feu;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface FizzBuzzPlayer.
  */
-public interface FizzBuzzPlayer {
+public interface FizzBuzzPlayer extends Observer, Subject {
 
 	/**
 	 * Determine word.
@@ -29,7 +28,13 @@ public interface FizzBuzzPlayer {
 	 *            the i
 	 */
 	default void sayWord(int i) {
-		System.out.println(getName() + ": " + determineWord(i));
+		final String word = determineWord(i);
+		System.out.println(getName() + ": " + word);
+		notifyObservers(word);
 	}
+
+	void setPredecessor(FizzBuzzPlayer predecessor);
+
+	void updateCount();
 
 }
